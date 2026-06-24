@@ -1,6 +1,8 @@
+import ullas from "../assets/ullas.jpg";
+
 export default function About() {
   return (
-    <div className="bg-white/60 backdrop-blur-lg p-8 rounded-3xl shadow-xl">
+    <div className="bg-white/60 backdrop-blur-lg p-8 rounded-3xl shadow-xl mb-8">
 
       <h1 className="text-4xl font-bold text-center mb-6">
         About Kodagu & SwachhAI
@@ -11,10 +13,10 @@ export default function About() {
       </h2>
 
       <p className="mb-4">
-        Kodagu, popularly known as the "Scotland of India",
+        Kodagu, popularly known as the Scotland of India,
         is one of Karnataka's most beautiful districts.
-        Located in the Western Ghats, Kodagu is famous for
-        its coffee plantations, lush green hills,
+        Located in the Western Ghats, Kodagu is famous
+        for coffee plantations, lush green hills,
         waterfalls, forests, wildlife, pleasant climate,
         and rich cultural heritage.
       </p>
@@ -22,7 +24,7 @@ export default function About() {
       <p className="mb-4">
         Tourist attractions such as Abbey Falls,
         Raja's Seat, Talakaveri, Dubare Elephant Camp,
-        Mandalpatti, and Nagarhole National Park attract
+        Mandalpatti and Nagarhole National Park attract
         thousands of visitors every year.
       </p>
 
@@ -46,16 +48,10 @@ export default function About() {
 
       <p className="mb-4">
         Cleanliness is essential to protect Kodagu's
-        forests, rivers, wildlife, villages, and tourist
+        forests, rivers, wildlife, villages and tourist
         destinations. Improper waste disposal affects
-        public health, damages the environment, and
+        public health, damages the environment and
         reduces the beauty of our district.
-      </p>
-
-      <p className="mb-4">
-        A clean Kodagu promotes better tourism,
-        healthier communities, environmental
-        sustainability, and economic development.
       </p>
 
       <h2 className="text-2xl font-bold mb-3">
@@ -94,19 +90,43 @@ export default function About() {
         🎯 Vision
       </h2>
 
-      <p className="mb-4 text-xl font-semibold text-green-700">
+      <p className="text-xl font-semibold text-green-700 mb-8">
         "Clean Kodagu • Smart Kodagu"
       </p>
 
-      <h2 className="text-2xl font-bold mb-3">
-        👨‍💻 Developed By
-      </h2>
+      <div className="border-t pt-8">
 
-      <p>
-        Ullas S<br />
-        Artificial Intelligence & Data Science<br />
-        Coorg Institute of Technology, Ponnampet
-      </p>
+        <h2 className="text-3xl font-bold text-center mb-6">
+          👨‍💻 Developer
+        </h2>
+
+        <div className="flex flex-col items-center">
+
+          <img
+            src={ullas}
+            alt="Ullas S"
+            className="w-44 h-44 rounded-full object-cover border-4 border-green-600 shadow-xl"
+          />
+
+          <h3 className="text-2xl font-bold mt-4">
+            Ullas S
+          </h3>
+
+          <p className="text-gray-700">
+            Artificial Intelligence & Data Science
+          </p>
+
+          <p className="text-gray-700">
+            Coorg Institute of Technology, Ponnampet
+          </p>
+
+          <p className="mt-4 italic text-green-700 font-semibold">
+            "Technology for a Cleaner Kodagu"
+          </p>
+
+        </div>
+
+      </div>
 
     </div>
   );
