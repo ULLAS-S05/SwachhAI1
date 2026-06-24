@@ -1,13 +1,20 @@
 import { useState } from "react";
 import api from "../services/api";
 import PremiumButton from "../components/PremiumButton";
+import ReCAPTCHA from "react-google-recaptcha";
 
 export default function Login({ onLogin }) {
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [captcha, setCaptcha] = useState(false);
 
   const login = async () => {
+
+    if (!captcha) {
+      alert("Please complete reCAPTCHA");
+      return;
+    }
 
     if (
       username === "admin" &&
@@ -144,6 +151,14 @@ export default function Login({ onLogin }) {
           )
         }
       />
+
+      
+      <div className="flex justify-center mb-4">
+        <ReCAPTCHA
+          sitekey="6Le9ljEtAAAAALEtt6SsQbve8P2g2fzaKhpbQQe7"
+          onChange={() => setCaptcha(true)}
+        />
+      </div>
 
       <div className="flex justify-center">
 

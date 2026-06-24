@@ -2,6 +2,7 @@ import { useState } from "react";
 import { kodagu } from "../data/kodagu";
 import api from "../services/api";
 import PremiumButton from "../components/PremiumButton";
+import ReCAPTCHA from "react-google-recaptcha";
 
 export default function Register() {
 
@@ -15,8 +16,14 @@ export default function Register() {
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [captcha, setCaptcha] = useState(false);
 
   const registerOfficer = async () => {
+
+    if (!captcha) {
+      alert("Please complete reCAPTCHA");
+      return;
+    }
 
     if (
       !name ||
@@ -187,7 +194,15 @@ export default function Register() {
 
       </div>
 
-      <div className="flex justify-center mt-6">
+      
+      <div className="flex justify-center mt-6 mb-4">
+        <ReCAPTCHA
+          sitekey="6Le9ljEtAAAAALEtt6SsQbve8P2g2fzaKhpbQQe7"
+          onChange={() => setCaptcha(true)}
+        />
+      </div>
+
+      <div className="flex justify-center mt-2">
 
         <PremiumButton
           color="green"
@@ -197,6 +212,29 @@ export default function Register() {
         </PremiumButton>
 
       </div>
+
+      <p className="mt-6 text-sm text-gray-700 bg-yellow-50 border border-yellow-300 p-4 rounded-xl">
+        📌 <b>Registration Rules</b>
+        <br /><br />
+        Username must start with the selected Panchayat name.
+        <br />
+        Example: ballamavati_admin
+        <br /><br />
+        Password must contain:
+        <br />
+        ✓ Minimum 8 characters
+        <br />
+        ✓ 1 Uppercase letter
+        <br />
+        ✓ 1 Lowercase letter
+        <br />
+        ✓ 1 Number
+        <br />
+        ✓ 1 Special character
+        <br /><br />
+        Example: Kodagu@123
+      </p>
+
 
     </div>
 

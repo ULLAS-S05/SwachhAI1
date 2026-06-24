@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 from uuid import uuid4
 import shutil
 import os
+import re
 
 from app.database import SessionLocal
 
@@ -211,6 +212,31 @@ def register_officer(
         raise HTTPException(
             status_code=400,
             detail="Panchayat already registered"
+        )
+
+    expected_prefix = (
+        data.panchayat.lower()
+        .replace(" ", "_")
+    )
+
+    if not data.username.lower().startswith(expected_prefix):
+        raise HTTPException(
+            status_code=400,
+            detail=f"Username must start with {expected_prefix}"
+        )
+
+    password = data.password
+
+    if (
+        len(password) < 8
+        or not re.search(r"[A-Z]", password)
+        or not re.search(r"[a-z]", password)
+        or not re.search(r"[0-9]", password)
+        or not re.search(r"[^A-Za-z0-9]", password)
+    ):
+        raise HTTPException(
+            status_code=400,
+            detail="Password must contain 8+ chars, uppercase, lowercase, number and special character"
         )
 
     officer = Officer(
