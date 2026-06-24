@@ -4,6 +4,7 @@ import Report from "./pages/Report";
 import Track from "./pages/Track";
 import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
+import About from "./pages/About";
 import Register from "./pages/Register";
 import AdminDashboard from "./pages/AdminDashboard";
 
@@ -23,6 +24,9 @@ localStorage.getItem("isLoggedIn") === "true"
 const [showRegister, setShowRegister] =
 useState(false);
 const [showTrack, setShowTrack] =
+  useState(false);
+
+const [showAbout, setShowAbout] =
   useState(false);
 
 const role =
@@ -124,7 +128,10 @@ return (
 
       <span className="font-semibold hover:text-green-700 cursor-pointer" onClick={() => setShowTrack(!showTrack)}>Track</span>
 
-      <span className="font-semibold hover:text-green-700 cursor-pointer">
+      <span
+        className="font-semibold hover:text-green-700 cursor-pointer"
+        onClick={() => setShowAbout(!showAbout)}
+      >
         About
       </span>
 
@@ -154,6 +161,12 @@ return (
         </div>
 
         {showTrack && ( <div className="bg-white/60 backdrop-blur-lg p-6 rounded-3xl shadow-xl mb-6"><Track /></div> )}
+
+        {showAbout && (
+          <div className="bg-white/60 backdrop-blur-lg p-6 rounded-3xl shadow-xl mb-6">
+            <About />
+          </div>
+        )}
 
         <div className="bg-white/60 backdrop-blur-lg p-6 rounded-3xl shadow-xl">
 
@@ -234,3 +247,10 @@ return (
 }
 
 export default App;
+
+{/* Footer */}
+<footer className="mt-12 text-center text-gray-700 py-6 border-t border-white/20">
+  <p>© 2026 SwachhAI. All Rights Reserved.</p>
+  <p className="font-semibold">Developed by Ullas S</p>
+</footer>
+
