@@ -10,6 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@tsparticles/react": "^4.2.1",
+    "@tsparticles/slim": "^4.2.1",
     "axios": "^1.18.0",
     "framer-motion": "^12.41.0",
     "jspdf": "^4.2.1",
