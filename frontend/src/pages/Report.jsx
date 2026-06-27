@@ -48,6 +48,10 @@ export default function Report() {
 
   const submitComplaint = async () => {
 
+    console.log("Submit button clicked");
+    console.log(form);
+
+
     if (!form.taluk) {
       alert("Please Select Taluk");
       return;
@@ -83,6 +87,8 @@ export default function Report() {
 
     try {
 
+      console.log("Sending request to backend...");
+
       const res = await api.post(
         "/report",
         form
@@ -109,11 +115,14 @@ export default function Report() {
 
     } catch (err) {
 
-      console.log(err);
+      console.error(err);
 
-      alert(
-        "Error Creating Complaint"
-      );
+      if (err.response) {
+        console.log("Status:", err.response.status);
+        console.log("Data:", err.response.data);
+      }
+
+      alert("Error Creating Complaint");
 
     }
 

@@ -1,5 +1,6 @@
 from pydantic import BaseModel, EmailStr
 
+
 class OfficerCreate(BaseModel):
 
     name: str
@@ -13,8 +14,16 @@ class OfficerCreate(BaseModel):
     username: str
     password: str
 
+    role: str = "officer"
+
 
 class OfficerLogin(BaseModel):
 
     username: str
     password: str
+
+
+class ChangePassword(BaseModel):
+
+    current_password: str
+    new_password: str

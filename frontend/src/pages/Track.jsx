@@ -56,7 +56,29 @@ export default function Track() {
 
           <p><b>ID:</b> {complaint.complaint_id}</p>
           <p><b>Description:</b> {complaint.description}</p>
-          <p><b>Status:</b> {complaint.status}</p>
+          
+<p className="mt-2">
+
+<b>Status:</b>{" "}
+
+<span className={
+complaint.status==="RESOLVED"
+?"bg-green-100 text-green-700 px-3 py-1 rounded-full"
+
+:complaint.status==="PENDING"
+
+?"bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full"
+
+:"bg-blue-100 text-blue-700 px-3 py-1 rounded-full"
+
+}>
+
+{complaint.status}
+
+</span>
+
+</p>
+
           <p><b>Latitude:</b> {complaint.latitude}</p>
           <p><b>Longitude:</b> {complaint.longitude}</p>
 
@@ -67,7 +89,7 @@ export default function Track() {
               </h3>
 
               <img
-                src={`http://127.0.0.1:8000/${complaint.before_image}`}
+                src={`https://swachhai1-1.onrender.com/${complaint.before_image}`}
                 alt="Before"
                 className="mt-2 w-64 rounded border"
               />
@@ -81,7 +103,7 @@ export default function Track() {
               </h3>
 
               <img
-                src={`http://127.0.0.1:8000/${complaint.after_image}`}
+                src={`https://swachhai1-1.onrender.com/${complaint.after_image}`}
                 alt="After"
                 className="mt-2 w-64 rounded border"
               />

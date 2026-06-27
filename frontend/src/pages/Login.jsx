@@ -1,178 +1,113 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import api from "../services/api";
 import PremiumButton from "../components/PremiumButton";
-import ReCAPTCHA from "react-google-recaptcha";
+import Captcha from "../components/Captcha";
 
-export default function Login({ onLogin }) {
+export default function Login() {
+
+  const navigate = useNavigate();
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [captcha, setCaptcha] = useState(false);
+  const [captchaVerified, setCaptchaVerified] = useState(false);
 
   const login = async () => {
 
-    if (!captcha) {
-      alert("Please complete reCAPTCHA");
-      return;
-    }
-
-    if (
-      username === "admin" &&
-      password === "admin123"
-    ) {
-
-      localStorage.setItem(
-        "isLoggedIn",
-        "true"
-      );
-
-      localStorage.setItem(
-        "role",
-        "admin"
-      );
-
-      onLogin();
-
+    if (!captchaVerified) {
+      alert("Please complete CAPTCHA");
       return;
     }
 
     try {
 
-      const res = await api.post(
-        "/login",
-        {
-          username,
-          password
-        }
-      );
+      const res = await api.post("/login", {
+        username,
+        password
+      });
 
       localStorage.setItem(
-        "isLoggedIn",
-        "true"
-      );
+  "token",
+  res.data.access_token
+);
 
-      localStorage.setItem(
-        "role",
-        "officer"
-      );
+localStorage.setItem(
+  "role",
+  res.data.role
+);
 
-      localStorage.setItem(
-        "officerName",
-        res.data.name
-      );
+localStorage.setItem(
+  "name",
+  res.data.name
+);
 
-      localStorage.setItem(
-        "taluk",
-        res.data.taluk
-      );
+localStorage.setItem(
+  "phone",
+  res.data.phone || ""
+);
 
-      localStorage.setItem(
-        "panchayat",
-        res.data.panchayat
-      );
+localStorage.setItem(
+  "email",
+  res.data.email || ""
+);
 
-      onLogin();
+localStorage.setItem(
+  "taluk",
+  res.data.taluk || ""
+);
 
-    } catch {
+localStorage.setItem(
+  "panchayat",
+  res.data.panchayat || ""
+);
 
-      alert(
-        "Invalid Credentials"
-      );
+if (res.data.role === "mla") {
+
+  navigate("/admin");
+
+} else {
+
+  navigate("/dashboard");
+
+}
+    } catch (err) {
+
+      alert("Invalid Credentials");
 
     }
 
   };
 
   return (
+    <div className="backdrop-blur-xl bg-white/40 border border-white/20 shadow-2xl rounded-3xl p-8 max-w-md mx-auto">
 
-    <div
-      className="
-      backdrop-blur-xl
-      bg-white/40
-      border border-white/20
-      shadow-2xl
-      rounded-3xl
-      p-8
-      max-w-md
-      mx-auto
-      "
-    >
-
-      <h1
-        className="
-        text-4xl
-        font-extrabold
-        mb-6
-        text-center
-        "
-      >
+      <h1 className="text-4xl font-extrabold mb-6 text-center">
         Officer Login
       </h1>
 
       <input
-        className="
-        w-full
-        p-3
-        mb-3
-        rounded-xl
-        border
-        border-gray-300
-        focus:ring-2
-        focus:ring-green-500
-        outline-none
-        "
+        className="w-full p-3 mb-3 rounded-xl border"
         placeholder="Username"
         value={username}
-        onChange={(e)=>
-          setUsername(
-            e.target.value
-          )
-        }
+        onChange={(e)=>setUsername(e.target.value)}
       />
 
       <input
         type="password"
-        className="
-        w-full
-        p-3
-        mb-4
-        rounded-xl
-        border
-        border-gray-300
-        focus:ring-2
-        focus:ring-green-500
-        outline-none
-        "
+        className="w-full p-3 mb-4 rounded-xl border"
         placeholder="Password"
         value={password}
-        onChange={(e)=>
-          setPassword(
-            e.target.value
-          )
-        }
+        onChange={(e)=>setPassword(e.target.value)}
       />
 
-      
-      <div className="flex justify-center mb-4">
-        <ReCAPTCHA
-          sitekey="6Le9ljEtAAAAALEtt6SsQbve8P2g2fzaKhpbQQe7"
-          onChange={() => setCaptcha(true)}
-        />
-      </div>
+      <Captcha onVerify={setCaptchaVerified} />
 
-      <div className="flex justify-center">
-
-        <PremiumButton
-          color="blue"
-          onClick={login}
-        >
+      <div className="flex justify-center mt-4">
+        <PremiumButton color="blue" onClick={login}>
           Login
         </PremiumButton>
-
       </div>
 
     </div>
-
   );
-
 }

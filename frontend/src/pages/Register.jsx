@@ -2,7 +2,7 @@ import { useState } from "react";
 import { kodagu } from "../data/kodagu";
 import api from "../services/api";
 import PremiumButton from "../components/PremiumButton";
-import ReCAPTCHA from "react-google-recaptcha";
+import Captcha from "../components/Captcha";
 
 export default function Register() {
 
@@ -16,12 +16,12 @@ export default function Register() {
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [captcha, setCaptcha] = useState(false);
+  const [captchaVerified, setCaptchaVerified] = useState(false);
 
   const registerOfficer = async () => {
 
-    if (!captcha) {
-      alert("Please complete reCAPTCHA");
+    if (!captchaVerified) {
+      alert("Please verify the CAPTCHA");
       return;
     }
 
@@ -195,12 +195,7 @@ export default function Register() {
       </div>
 
       
-      <div className="flex justify-center mt-6 mb-4">
-        <ReCAPTCHA
-          sitekey="6Le9ljEtAAAAALEtt6SsQbve8P2g2fzaKhpbQQe7"
-          onChange={() => setCaptcha(true)}
-        />
-      </div>
+      <Captcha onVerify={setCaptchaVerified} />
 
       <div className="flex justify-center mt-2">
 

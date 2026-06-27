@@ -1,8 +1,14 @@
 import { useEffect, useState } from "react";
 import api from "../services/api";
-import ComplaintMap from "../components/ComplaintMap";
-import GlassCard from "../components/GlassCard";
-import PageWrapper from "../components/PageWrapper";
+
+import Sidebar from "../components/admin/Sidebar";
+import AdminHeader from "../components/admin/AdminHeader";
+import DashboardCards from "../components/admin/DashboardCards";
+import ProfileCard from "../components/admin/ProfileCard";
+import LiveMapCard from "../components/admin/LiveMapCard";
+import TalukChart from "../components/admin/TalukChart";
+import ComplaintTable from "../components/admin/ComplaintTable";
+
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 
@@ -13,234 +19,176 @@ export default function AdminDashboard() {
 
   useEffect(() => {
 
-    const loadData = async () => {
+    const loadComplaints = async () => {
 
       const res = await api.get("/complaints");
+
       setComplaints(res.data);
 
     };
 
-    loadData();
+    loadComplaints();
 
   }, []);
 
+  const taluk =
+  localStorage.getItem("taluk");
 
-  const timeAgo = (date) => {
+const mlaComplaints =
+  complaints.filter(
+    c => c.taluk === taluk
+  );
 
-    const seconds =
-      Math.floor(
-        (new Date() - new Date(date)) / 1000
-      );
-
-    const minutes =
-      Math.floor(seconds / 60);
-
-    const hours =
-      Math.floor(minutes / 60);
-
-    const days =
-      Math.floor(hours / 24);
-
-    if (days > 0)
-      return `${days} day(s) ago`;
-
-    if (hours > 0)
-      return `${hours} hour(s) ago`;
-
-    if (minutes > 0)
-      return `${minutes} minute(s) ago`;
-
-    return "Just now";
-  };
-
-
-  const filteredComplaints =
-    complaints.filter((c) =>
+const filteredComplaints =
+  mlaComplaints.filter(
+    c =>
       c.complaint_id
         ?.toLowerCase()
         .includes(
           searchId.toLowerCase()
         )
-    );
+  );
 
-  const total = filteredComplaints.length;
+  const total =
+    filteredComplaints.length;
 
   const pending =
     filteredComplaints.filter(
-      c => c.status === "PENDING"
+      c=>c.status==="PENDING"
     ).length;
 
   const progress =
     filteredComplaints.filter(
-      c => c.status === "IN_PROGRESS"
+      c=>c.status==="IN_PROGRESS"
     ).length;
 
   const resolved =
     filteredComplaints.filter(
-      c => c.status === "RESOLVED"
+      c=>c.status==="RESOLVED"
     ).length;
 
-  const active =
-    filteredComplaints.filter(
-      c => c.status !== "RESOLVED"
-    ).length;
+  const villages =
+    [...new Set(
+      filteredComplaints.map(
+        c=>c.village
+      )
+    )].length;
+
+  const accuracy =
+    total
+      ? ((resolved/total)*100).toFixed(1)
+      : 0;
 
   const exportPDF = () => {
 
     const doc = new jsPDF();
 
+    doc.setFontSize(20);
+
     doc.text(
-      "SwachhAI Report",
+      "SWACHH AI MLA REPORT",
       20,
       20
     );
 
-    autoTable(doc, {
+    autoTable(doc,{
 
-      startY: 30,
+      startY:35,
 
-      head: [[
+      head:[[
         "ID",
         "Taluk",
         "Panchayat",
+        "Village",
         "Status"
       ]],
 
       body:
-        filteredComplaints.map(
-          (c) => [
-            c.complaint_id,
-            c.taluk,
-            c.panchayat,
-            c.status
-          ]
-        )
+
+      filteredComplaints.map(c=>[
+        c.complaint_id,
+        c.taluk,
+        c.panchayat,
+        c.village,
+        c.status
+      ])
 
     });
 
-    doc.save(
-      "SwachhAI_Report.pdf"
-    );
+    doc.save("Kodagu_Report.pdf");
+
   };
+
+
+  
 
   return (
 
-  <PageWrapper>
+  <div className="flex min-h-screen bg-gray-100">
 
-    <div>
+    <Sidebar />
 
-      <div className="flex justify-between mb-6">
+    <div className="flex-1 p-8 overflow-auto">
 
-        <h1 className="text-3xl font-bold">
-          Kodagu District Admin Dashboard
-        </h1>
+      <AdminHeader />
+
+      <div className="flex justify-between items-center mb-6">
+
+        <input
+          type="text"
+          placeholder="🔍 Search Complaint ID..."
+          value={searchId}
+          onChange={(e)=>setSearchId(e.target.value)}
+          className="w-96 p-4 rounded-2xl border shadow"
+        />
 
         <button
           onClick={exportPDF}
-          className="bg-blue-600 text-white px-4 py-2 rounded"
+          className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-2xl shadow-xl"
         >
-          Export PDF
+          Export Report
         </button>
 
       </div>
 
-      <input
-        type="text"
-        placeholder="Search Complaint ID..."
-        value={searchId}
-        onChange={(e)=>
-          setSearchId(e.target.value)
-        }
-        className="border p-2 rounded w-full mb-4"
+      <DashboardCards
+        total={total}
+        pending={pending}
+        progress={progress}
+        resolved={resolved}
+        villages={villages}
+        accuracy={accuracy}
       />
 
-      <div className="grid grid-cols-4 gap-4 mb-6">
+      <div className="grid grid-cols-3 gap-6 mb-8">
 
-  <GlassCard
-    title="Active"
-    value={active}
-    color="text-purple-600"
-  />
+        <ProfileCard />
 
-  <GlassCard
-    title="Total"
-    value={total}
-    color="text-blue-600"
-  />
+        <div className="col-span-2">
 
-  <GlassCard
-    title="Pending"
-    value={pending}
-    color="text-red-600"
-  />
+          <TalukChart
+            complaints={filteredComplaints}
+          />
 
-  <GlassCard
-    title="Progress"
-    value={progress}
-    color="text-yellow-600"
-  />
+        </div>
 
-  <GlassCard
-    title="Resolved"
-    value={resolved}
-    color="text-green-600"
-  />
+      </div>
 
-</div>
+      <div className="grid grid-cols-2 gap-6 mb-8">
 
-<ComplaintMap
-        complaints={filteredComplaints}
-      />
+        <LiveMapCard
+          complaints={filteredComplaints}
+        />
 
-      <div className="mt-8">
-
-        <h2 className="text-2xl font-bold mb-4">
-          🔴 Active Complaints
-        </h2>
-
-        {filteredComplaints
-          .filter(c => c.status !== "RESOLVED")
-          .map(c => (
-
-            <div
-              key={c.complaint_id}
-              className="bg-white p-4 rounded-xl shadow mb-3"
-            >
-
-              <p>
-                <b>ID:</b> {c.complaint_id}
-              </p>
-
-              <p>
-                <b>Taluk:</b> {c.taluk}
-              </p>
-
-              <p>
-                <b>Panchayat:</b> {c.panchayat}
-              </p>
-
-              <p>
-                <b>Village:</b> {c.village}
-              </p>
-
-              <p>
-                <b>Status:</b> {c.status}
-              </p>
-
-              <p>
-                <b>⏱ Created:</b>{" "}
-                {timeAgo(c.created_at)}
-              </p>
-
-            </div>
-
-          ))}
+        <ComplaintTable
+          complaints={filteredComplaints}
+        />
 
       </div>
 
     </div>
 
-  </PageWrapper>
+  </div>
 
-  );
+);
 }

@@ -1,0 +1,32 @@
+import Navbar from "../components/layout/Navbar";
+import Hero from "../components/home/Hero";
+import WhyCleanKodagu from "../components/home/WhyCleanKodagu";
+import Workflow from "../components/home/Workflow";
+import Services from "../components/home/Services";
+import WaveDivider from "../components/common/WaveDivider";
+
+export default function LandingPage() {
+
+  return (
+
+    <div className="bg-white overflow-x-hidden">
+
+      <Navbar />
+
+      <Hero />
+
+      <WhyCleanKodagu />
+
+      <WaveDivider color="#ffffff" flip />
+
+      <Workflow />
+
+      <WaveDivider color="#f0fdf4" />
+
+      <Services />
+
+    </div>
+
+  );
+
+}

@@ -5,29 +5,48 @@ class Officer(Base):
 
     __tablename__ = "officers"
 
-    id = Column(Integer, primary_key=True)
+    id = Column(
+        Integer,
+        primary_key=True,
+        index=True
+    )
 
-    name = Column(String)
+    name = Column(
+        String,
+        nullable=False
+    )
 
     phone = Column(String)
 
-    email = Column(String)
+    email = Column(
+        String,
+        unique=True,
+        nullable=False
+    )
 
     govt_id = Column(
         String,
-        unique=True
+        unique=True,
+        nullable=False
     )
 
     taluk = Column(String)
 
-    panchayat = Column(
-        String,
-        unique=True
-    )
+    panchayat = Column(String)
 
     username = Column(
         String,
-        unique=True
+        unique=True,
+        nullable=False
     )
 
-    password = Column(String)
+    password = Column(
+        String,
+        nullable=False
+    )
+
+    role = Column(
+        String,
+        default="officer",
+        nullable=False
+    )
