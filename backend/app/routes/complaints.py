@@ -460,3 +460,44 @@ def homepage_stats():
         "villages": villages,
         "accuracy": accuracy
     }
+@router.get("/analytics/overview")
+def analytics_overview():
+
+    db = SessionLocal()
+
+    total = db.query(Complaint).count()
+
+    pending = db.query(Complaint).filter(
+        Complaint.status == "PENDING"
+    ).count()
+
+    in_progress = db.query(Complaint).filter(
+        Complaint.status == "IN_PROGRESS"
+    ).count()
+
+    resolved = db.query(Complaint).filter(
+        Complaint.status == "RESOLVED"
+    ).count()
+
+    taluks = db.query(
+        Complaint.taluk
+    ).distinct().count()
+
+    panchayats = db.query(
+        Complaint.panchayat
+    ).distinct().count()
+
+    resolution_rate = (
+        round((resolved / total) * 100, 2)
+        if total else 0
+    )
+
+    return {
+        "total": total,
+        "pending": pending,
+        "in_progress": in_progress,
+        "resolved": resolved,
+        "resolution_rate": resolution_rate,
+        "taluks": taluks,
+        "panchayats": panchayats
+    }

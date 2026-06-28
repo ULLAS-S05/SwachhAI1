@@ -1,3 +1,4 @@
+import Statistics from "../components/home/Statistics";
 import Navbar from "../components/layout/Navbar";
 import Hero from "../components/home/Hero";
 import WhyCleanKodagu from "../components/home/WhyCleanKodagu";
@@ -12,7 +13,7 @@ export default function LandingPage() {
       <Navbar />
 
       <Hero />
-
+      <Statistics />
       <WhyCleanKodagu />
 
       <WaveDivider color="#ffffff" flip />
@@ -62,35 +63,6 @@ export default function LandingPage() {
         </div>
 
       </div>
-<section className="py-16 bg-gray-50">
-  <div className="max-w-5xl mx-auto px-6">
-    <div className="bg-white rounded-3xl shadow-xl p-8 flex flex-col md:flex-row items-center gap-6">
-      <img
-        src="/developer.jpg"
-        alt="Ullas S"
-        className="w-28 h-28 rounded-full border-4 border-green-600 object-cover"
-      />
-
-      <div>
-        <h2 className="text-3xl font-bold text-green-700">
-          Developed By
-        </h2>
-
-        <h3 className="text-2xl font-semibold mt-2">
-          Ullas S
-        </h3>
-
-        <p className="text-gray-600">
-          Python Developer • AI & Data Science Engineer
-        </p>
-
-        <p className="text-gray-500 mt-3">
-          Creator of SwachhAI – AI powered complaint management system for Kodagu.
-        </p>
-      </div>
-    </div>
-  </div>
-</section>
     </div>
   );
 }
