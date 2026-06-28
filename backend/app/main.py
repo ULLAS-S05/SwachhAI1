@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.database import Base, engine
+from app.database import Base, engine, SessionLocal
 
 from app.models.officer import Officer
 from app.models.complaint import Complaint
@@ -18,7 +18,8 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:5173",
-        "http://127.0.0.1:5173"
+        "http://127.0.0.1:5173",
+        "https://swachhai1.vercel.app"
     ],
     allow_credentials=True,
     allow_methods=["*"],
@@ -31,4 +32,14 @@ app.include_router(router)
 def home():
     return {
         "message": "SwachhAI Backend Running"
+    }
+
+@app.get("/debug-db")
+def debug_db():
+
+    db = SessionLocal()
+
+    return {
+        "complaints": db.query(Complaint).count(),
+        "officers": db.query(Officer).count()
     }
