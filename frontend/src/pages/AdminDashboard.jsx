@@ -185,72 +185,42 @@ const filteredComplaints =
         />
 
       </div>
+      <div className="bg-white rounded-3xl shadow-2xl p-8 mt-8">
 
+        <div className="flex flex-col md:flex-row items-center gap-6">
+
+          <img
+            src="/developer.jpg"
+            alt="Ullas S"
+            className="w-24 h-24 rounded-full border-4 border-green-600 object-cover"
+          />
+
+          <div>
+
+            <h2 className="text-3xl font-bold text-green-700">
+              About the Developer
+            </h2>
+
+            <h3 className="text-xl font-semibold mt-2">
+              Ullas S
+            </h3>
+
+            <p className="text-gray-600 mt-2">
+              Python Developer • AI & Data Science Engineer
+            </p>
+
+            <p className="text-gray-500 mt-3">
+              Developer of SwachhAI — AI-powered complaint management platform.
+            </p>
+
+          </div>
+
+        </div>
+
+      </div>
     </div>
 
   </div>
 
 );
 }
-{/* About Developer */}
-
-<div className="bg-white rounded-3xl shadow-2xl p-8 mt-8">
-
-  <div className="flex flex-col md:flex-row items-center gap-6">
-
-    <img
-      src="/developer.jpg"
-      alt="Ullas S"
-      className="w-24 h-24 md:w-32 md:h-32 rounded-full border-4 border-green-600 shadow-lg"
-    />
-
-    <div className="text-center md:text-left">
-
-      <h2 className="text-3xl font-black text-green-700">
-        About the Developer
-      </h2>
-
-      <h3 className="text-xl font-bold mt-2">
-        Ullas S
-      </h3>
-
-      <p className="text-green-600 font-semibold">
-        Python Developer • AI & Data Science Engineer
-      </p>
-
-      <p className="text-gray-600 mt-3 max-w-3xl">
-        SwachhAI was designed and developed by Ullas S
-        to modernize complaint management and improve
-        cleanliness monitoring using Artificial Intelligence,
-        geolocation tracking, image analysis, and smart
-        governance dashboards for villages, panchayats,
-        taluks, and constituencies.
-      </p>
-
-      <div className="flex flex-wrap justify-center md:justify-start gap-3 mt-4">
-
-        <a
-          href="https://github.com/ULLAS-S05"
-          target="_blank"
-          rel="noreferrer"
-          className="bg-black text-white px-4 py-2 rounded-xl"
-        >
-          GitHub
-        </a>
-
-        <a
-          href="https://linkedin.com"
-          target="_blank"
-          rel="noreferrer"
-          className="bg-blue-600 text-white px-4 py-2 rounded-xl"
-        >
-          LinkedIn
-        </a>
-
-      </div>
-
-    </div>
-
-  </div>
-
-</div>

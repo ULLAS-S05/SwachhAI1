@@ -41,23 +41,6 @@ return (
     <p className="text-green-200 mt-2">
       Government of Karnataka
     </p>
-   <div className="mt-4 bg-green-950/40 rounded-2xl p-4 text-center">
-
-  <img
-    src="/developer.jpg"
-    alt="Developer"
-    className="w-20 h-20 rounded-full mx-auto border-2 border-green-400 object-cover"
-  />
-
-  <h3 className="font-bold mt-2">
-    Ullas S
-  </h3>
-
-  <p className="text-xs text-green-200">
-    Python Developer
-  </p>
-
-</div>
 
   </div>
 
