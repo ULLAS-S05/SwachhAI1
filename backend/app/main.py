@@ -11,7 +11,7 @@ from app.models.officer import Officer
 from app.routes.complaints import router
 
 Base.metadata.create_all(bind=engine)
-import seed_users
+
 
 app = FastAPI(title="SwachhAI")
 
