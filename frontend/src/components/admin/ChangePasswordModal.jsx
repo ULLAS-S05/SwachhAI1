@@ -55,7 +55,7 @@ export default function ChangePasswordModal({ open, onClose }) {
 
     <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
 
-      <div className="bg-white rounded-3xl shadow-2xl p-8 w-[450px]">
+      <div className="bg-white rounded-3xl shadow-2xl p-8 w-[95vw] max-w-md">
 
         <h2 className="text-3xl font-bold mb-6 text-center">
           🔒 Change Password

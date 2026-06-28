@@ -4,16 +4,15 @@ export default function ProfileCard() {
     localStorage.getItem("name") || "MLA";
 
   return (
-
     <div className="bg-white rounded-3xl shadow-xl p-8 text-center">
 
       <img
-        src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+        src="/mla.png"
         alt="MLA"
-        className="w-32 h-32 mx-auto rounded-full border-4 border-green-600"
+        className="w-24 h-24 md:w-32 md:h-32 mx-auto rounded-full border-4 border-green-600 object-cover"
       />
 
-      <h2 className="text-4xl font-bold mt-5">
+      <h2 className="text-2xl md:text-4xl font-bold mt-5">
         {name}
       </h2>
 
@@ -22,7 +21,5 @@ export default function ProfileCard() {
       </p>
 
     </div>
-
   );
-
 }
