@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import HeroDashboard from "./HeroDashboard";
 
 export default function Hero() {
 
@@ -95,7 +94,6 @@ export default function Hero() {
         </motion.div>
 
         <div className="-mt-16">
-  <HeroDashboard />
 </div>
 
       </div>
