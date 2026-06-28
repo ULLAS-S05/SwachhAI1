@@ -2,26 +2,22 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.database import Base, engine, SessionLocal
-
 from app.models.officer import Officer
 from app.models.complaint import Complaint
-
 from app.routes.complaints import router
 
-app = FastAPI(
-    title="SwachhAI API"
-)
+app = FastAPI(title="SwachhAI API")
 
 Base.metadata.create_all(bind=engine)
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-    "http://localhost:5173",
-    "http://127.0.0.1:5173",
-    "https://swachh-ai-1.vercel.app",
-    "https://swachhai1.vercel.app"
-]
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+        "https://swachh-ai-1.vercel.app",
+        "https://swachhai1.vercel.app"
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -37,7 +33,6 @@ def home():
 
 @app.get("/debug-db")
 def debug_db():
-
     db = SessionLocal()
 
     return {
