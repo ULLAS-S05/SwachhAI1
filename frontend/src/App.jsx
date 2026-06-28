@@ -9,67 +9,88 @@ import Register from "./pages/Register";
 
 import Dashboard from "./pages/Dashboard";
 import AdminDashboard from "./pages/AdminDashboard";
+import MLADashboard from "./pages/MLADashboard";
 
 import ProtectedRoute from "./components/common/ProtectedRoute";
 
 export default function App() {
 
-  return (
+return (
 
-    <BrowserRouter>
 
-      <Routes>
+<BrowserRouter>
 
-        {/* Home */}
-        <Route
-          path="/"
-          element={<Home />}
-        />
+  <Routes>
 
-        {/* Citizen */}
-        <Route
-          path="/report"
-          element={<ReportPage />}
-        />
+    {/* Home */}
+    <Route
+      path="/"
+      element={<Home />}
+    />
 
-        <Route
-          path="/track"
-          element={<TrackPage />}
-        />
+    {/* Citizen */}
+    <Route
+      path="/report"
+      element={<ReportPage />}
+    />
 
-        {/* Officer */}
-        <Route path="/login" element={<LoginPage />} />
+    <Route
+      path="/track"
+      element={<TrackPage />}
+    />
 
-<Route path="/register" element={<Register />} />
+    {/* Officer Login */}
+    <Route
+      path="/login"
+      element={<LoginPage />}
+    />
 
-        <Route
-          path="/dashboard"
-          element={
-            <ProtectedRoute>
-              <Dashboard />
-            </ProtectedRoute>
-          }
-        />
+    <Route
+      path="/register"
+      element={<Register />}
+    />
 
-        {/* MLA */}
-        <Route
-          path="/mla"
-          element={<MLAPage />}
-        />
+    {/* Officer Dashboard */}
+    <Route
+      path="/dashboard"
+      element={
+        <ProtectedRoute>
+          <Dashboard />
+        </ProtectedRoute>
+      }
+    />
 
-        <Route
-          path="/admin"
-          element={
-            <ProtectedRoute>
-              <AdminDashboard />
-            </ProtectedRoute>
-          }
-        />
+    {/* MLA Login */}
+    <Route
+      path="/mla"
+      element={<MLAPage />}
+    />
 
-      </Routes>
+    {/* MLA Dashboard */}
+    <Route
+      path="/mla-dashboard"
+      element={
+        <ProtectedRoute>
+          <MLADashboard />
+        </ProtectedRoute>
+      }
+    />
 
-    </BrowserRouter>
+    {/* Admin Dashboard */}
+    <Route
+      path="/admin"
+      element={
+        <ProtectedRoute>
+          <AdminDashboard />
+        </ProtectedRoute>
+      }
+    />
 
-  );
+  </Routes>
+
+</BrowserRouter>
+
+
+);
 
 }

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import CountUp from "react-countup";
 import api from "../../services/api";
 
 export default function Statistics() {
@@ -63,22 +64,25 @@ color: "from-purple-500 to-indigo-500"
 },
 {
 title: "Resolution %",
-value: `${stats.accuracy}%`,
+value: stats.accuracy,
+suffix: "%",
 icon: "📊",
 color: "from-emerald-500 to-teal-600"
 }
 ];
 
-return ( <section className="py-20 bg-green-50">
+return (
 
+
+<section className="py-24 bg-gradient-to-b from-white to-green-50">
 
   <div className="max-w-7xl mx-auto px-6">
 
-    <h2 className="text-5xl font-bold text-center text-green-700 mb-4">
+    <h2 className="text-5xl font-black text-center text-green-700 mb-4">
       Live Statistics
     </h2>
 
-    <p className="text-center text-gray-600 mb-12">
+    <p className="text-center text-gray-600 mb-14 text-lg">
       Real-time complaint monitoring across Kodagu District
     </p>
 
@@ -96,7 +100,19 @@ return ( <section className="py-20 bg-green-50">
 
           <div
             key={index}
-            className="bg-white rounded-3xl shadow-xl p-8 text-center hover:scale-105 transition duration-300"
+            className="
+              bg-white/70
+              backdrop-blur-xl
+              border border-white/30
+              rounded-3xl
+              shadow-2xl
+              p-8
+              text-center
+              hover:-translate-y-3
+              hover:shadow-green-200
+              transition-all
+              duration-500
+            "
           >
 
             <div
@@ -106,7 +122,15 @@ return ( <section className="py-20 bg-green-50">
             </div>
 
             <h3 className="text-5xl font-black mt-5 text-gray-800">
-              {item.value}
+
+              <CountUp
+                end={Number(item.value)}
+                duration={2.5}
+                separator=","
+              />
+
+              {item.suffix || ""}
+
             </h3>
 
             <p className="mt-3 text-gray-600 font-semibold">

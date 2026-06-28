@@ -34,7 +34,7 @@ export default function MLAPage() {
       localStorage.setItem("taluk", res.data.taluk || "");
       localStorage.setItem("panchayat", res.data.panchayat || "");
 
-      navigate("/admin");
+      navigate("/mla-dashboard");
 
     } catch (err) {
 

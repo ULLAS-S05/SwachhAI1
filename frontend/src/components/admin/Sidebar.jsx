@@ -1,82 +1,118 @@
 import {
-  FaHome,
-  FaMapMarkedAlt,
-  FaClipboardList,
-  FaChartBar,
-  FaUserShield,
-  FaKey,
-  FaSignOutAlt,
+FaHome,
+FaMapMarkedAlt,
+FaClipboardList,
+FaChartBar,
+FaUserShield,
+FaKey,
+FaSignOutAlt,
 } from "react-icons/fa";
 
 import { useNavigate } from "react-router-dom";
 
 export default function Sidebar() {
-  const navigate = useNavigate();
 
-  const logout = () => {
-    localStorage.clear();
-    navigate("/");
-  };
+const navigate = useNavigate();
 
-  return (
-    <div className="w-72 min-h-screen bg-gradient-to-b from-green-900 via-green-800 to-green-700 text-white shadow-2xl">
+const logout = () => {
+localStorage.clear();
+navigate("/");
+};
 
-      <div className="p-8 border-b border-green-600">
-        <h1 className="text-3xl font-black">
-          SWACHH AI
-        </h1>
+const menuItems = [
+{ icon: <FaHome />, label: "Dashboard" },
+{ icon: <FaMapMarkedAlt />, label: "Live Map" },
+{ icon: <FaClipboardList />, label: "Complaints" },
+{ icon: <FaChartBar />, label: "Analytics" },
+{ icon: <FaUserShield />, label: "Profile" },
+{ icon: <FaKey />, label: "Change Password" },
+];
 
-        <p className="text-green-200 mt-2">
-          Government of Karnataka
-        </p>
-      </div>
+return (
 
-      <div className="mt-8 space-y-3 px-5">
 
-        <button className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-green-600 transition">
-          <FaHome />
-          Dashboard
-        </button>
+<div className="w-72 min-h-screen bg-white border-r border-gray-200 shadow-xl flex flex-col">
 
-        <button className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-green-600 transition">
-          <FaMapMarkedAlt />
-          Live Map
-        </button>
+  <div className="p-8 border-b border-gray-200">
 
-        <button className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-green-600 transition">
-          <FaClipboardList />
-          Complaints
-        </button>
+    <h1 className="text-3xl font-black text-green-700">
+      SWACHH AI
+    </h1>
 
-        <button className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-green-600 transition">
-          <FaChartBar />
-          Analytics
-        </button>
+    <p className="text-gray-500 mt-2">
+      Government of Karnataka
+    </p>
 
-        <button className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-green-600 transition">
-          <FaUserShield />
-          Profile
-        </button>
+  </div>
 
-        <button className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-green-600 transition">
-          <FaKey />
-          Change Password
-        </button>
+  <div className="flex-1 mt-6 px-4 space-y-2">
 
-      </div>
+    {menuItems.map((item) => (
 
-      <div className="absolute bottom-10 w-72 px-5">
+      <button
+        key={item.label}
+        className="
+          w-full
+          flex
+          items-center
+          gap-4
+          p-4
+          rounded-2xl
+          text-gray-700
+          font-medium
+          hover:bg-green-50
+          hover:text-green-700
+          transition-all
+          duration-300
+        "
+      >
 
-        <button
-          onClick={logout}
-          className="w-full bg-red-500 hover:bg-red-600 p-4 rounded-xl font-bold flex justify-center items-center gap-3"
-        >
-          <FaSignOutAlt />
-          Logout
-        </button>
+        <span className="text-xl">
+          {item.icon}
+        </span>
 
-      </div>
+        {item.label}
 
-    </div>
-  );
+      </button>
+
+    ))}
+
+  </div>
+
+  <div className="p-5 border-t border-gray-200">
+
+    <button
+      onClick={logout}
+      className="
+        w-full
+        bg-gradient-to-r
+        from-red-500
+        to-pink-500
+        text-white
+        p-4
+        rounded-2xl
+        font-bold
+        flex
+        justify-center
+        items-center
+        gap-3
+        shadow-xl
+        hover:scale-105
+        transition-all
+        duration-300
+      "
+    >
+
+      <FaSignOutAlt />
+
+      Logout
+
+    </button>
+
+  </div>
+
+</div>
+
+);
+
 }
