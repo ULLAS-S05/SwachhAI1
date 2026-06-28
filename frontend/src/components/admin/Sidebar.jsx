@@ -97,39 +97,7 @@ return (
 
   <div className="mt-auto p-5">
 
-    <div className="bg-green-950/40 rounded-2xl p-4 text-center mb-4">
-
-      <img
-        src="/developer.jpg"
-        alt="Developer"
-        className="w-16 h-16 rounded-full mx-auto border-2 border-green-400 object-cover"
-      />
-
-      <h3 className="font-bold mt-2">
-        Ullas S
-      </h3>
-
-      <p className="text-xs text-green-200">
-        Python Developer
-      </p>
-
-      <p className="text-xs text-green-300 mt-1">
-        SwachhAI Developer
-      </p>
-
     </div>
-
-    <button
-      onClick={logout}
-      className="w-full bg-red-500 hover:bg-red-600 p-4 rounded-xl font-bold flex justify-center items-center gap-3"
-    >
-      <FaSignOutAlt />
-      Logout
-    </button>
-
-  </div>
-
-</div>
 
 );
 }
