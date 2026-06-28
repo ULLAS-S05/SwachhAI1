@@ -198,19 +198,6 @@ const filteredComplaints =
           <div>
 
             <h2 className="text-3xl font-bold text-green-700">
-              About the Developer
-            </h2>
-
-            <h3 className="text-xl font-semibold mt-2">
-              Ullas S
-            </h3>
-
-            <p className="text-gray-600 mt-2">
-              Python Developer • AI & Data Science Engineer
-            </p>
-
-            <p className="text-gray-500 mt-3">
-              Developer of SwachhAI — AI-powered complaint management platform.
             </p>
 
           </div>
