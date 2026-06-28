@@ -185,26 +185,6 @@ const filteredComplaints =
         />
 
       </div>
-      <div className="bg-white rounded-3xl shadow-2xl p-8 mt-8">
-
-        <div className="flex flex-col md:flex-row items-center gap-6">
-
-          <img
-            src="/developer.jpg"
-            alt="Ullas S"
-            className="w-24 h-24 rounded-full border-4 border-green-600 object-cover"
-          />
-
-          <div>
-
-            <h2 className="text-3xl font-bold text-green-700">
-            </p>
-
-          </div>
-
-        </div>
-
-      </div>
     </div>
 
   </div>
