@@ -33,12 +33,21 @@ def home():
 
 @app.get("/debug-db")
 def debug_db():
-    db = SessionLocal()
 
-    return {
-        "complaints": db.query(Complaint).count(),
-        "officers": db.query(Officer).count()
-    }
+    try:
+
+        db = SessionLocal()
+
+        return {
+            "complaints": db.query(Complaint).count(),
+            "officers": db.query(Officer).count()
+        }
+
+    except Exception as e:
+
+        return {
+            "error": str(e)
+        }
 @app.get("/test-mla")
 def test_mla():
 
