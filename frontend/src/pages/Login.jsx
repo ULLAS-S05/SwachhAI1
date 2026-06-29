@@ -26,53 +26,32 @@ export default function Login() {
         password
       });
 
-      localStorage.setItem(
-  "token",
-  res.data.access_token
-);
+      localStorage.setItem("token", res.data.access_token);
+      localStorage.setItem("role", res.data.role);
+      localStorage.setItem("name", res.data.name);
+      localStorage.setItem("phone", res.data.phone || "");
+      localStorage.setItem("email", res.data.email || "");
+      localStorage.setItem("taluk", res.data.taluk || "");
+      localStorage.setItem("panchayat", res.data.panchayat || "");
 
-localStorage.setItem(
-  "role",
-  res.data.role
-);
+      if (res.data.role === "officer") {
 
-localStorage.setItem(
-  "name",
-  res.data.name
-);
+        navigate("/dashboard");
 
-localStorage.setItem(
-  "phone",
-  res.data.phone || ""
-);
+      } else {
 
-localStorage.setItem(
-  "email",
-  res.data.email || ""
-);
+        alert("Please use the MLA Portal for MLA accounts.");
 
-localStorage.setItem(
-  "taluk",
-  res.data.taluk || ""
-);
+      }
 
-localStorage.setItem(
-  "panchayat",
-  res.data.panchayat || ""
-);
-
-if (res.data.role === "mla") {
-
-  navigate("/admin");
-
-} else {
-
-  navigate("/dashboard");
-
-}
     } catch (err) {
 
-      alert("Invalid Credentials");
+      console.error(err);
+
+      alert(
+        err?.response?.data?.detail ||
+        "Invalid Credentials"
+      );
 
     }
 
@@ -89,7 +68,7 @@ if (res.data.role === "mla") {
         className="w-full p-3 mb-3 rounded-xl border"
         placeholder="Username"
         value={username}
-        onChange={(e)=>setUsername(e.target.value)}
+        onChange={(e) => setUsername(e.target.value)}
       />
 
       <input
@@ -97,7 +76,7 @@ if (res.data.role === "mla") {
         className="w-full p-3 mb-4 rounded-xl border"
         placeholder="Password"
         value={password}
-        onChange={(e)=>setPassword(e.target.value)}
+        onChange={(e) => setPassword(e.target.value)}
       />
 
       <Captcha onVerify={setCaptchaVerified} />
