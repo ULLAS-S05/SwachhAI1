@@ -39,3 +39,24 @@ def debug_db():
         "complaints": db.query(Complaint).count(),
         "officers": db.query(Officer).count()
     }
+@app.get("/test-mla")
+def test_mla():
+
+    from app.database import SessionLocal
+    from app.models.officer import Officer
+
+    db = SessionLocal()
+
+    user = db.query(Officer).filter(
+        Officer.username == "MLAMantarGowda"
+    ).first()
+
+    if not user:
+        return {"found": False}
+
+    return {
+        "found": True,
+        "username": user.username,
+        "role": user.role,
+        "email": user.email
+    }
