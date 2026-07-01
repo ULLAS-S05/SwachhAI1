@@ -31,7 +31,7 @@ const menuItems = [
 return (
 
 
-<div className="w-72 min-h-screen bg-white border-r border-gray-200 shadow-xl flex flex-col">
+<div className="w-72 min-h-screen bg-gradient-to-b from-slate-950 via-green-950 to-slate-900 border-r border-gray-200 shadow-xl flex flex-col">
 
   <div className="p-8 border-b border-gray-200">
 
@@ -39,7 +39,7 @@ return (
       SWACHH AI
     </h1>
 
-    <p className="text-gray-500 mt-2">
+    <p className="text-green-300 mt-2">
       Government of Karnataka
     </p>
 
@@ -58,7 +58,7 @@ return (
           gap-4
           p-4
           rounded-2xl
-          text-gray-700
+          text-white
           font-medium
           hover:bg-green-50
           hover:text-green-700

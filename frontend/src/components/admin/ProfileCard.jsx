@@ -1,49 +1,74 @@
+import Tilt from "react-parallax-tilt";
+import { motion } from "framer-motion";
+
 export default function ProfileCard() {
 
-const name =
-localStorage.getItem("name") || "MLA";
+  const name =
+    localStorage.getItem("name") || "MLA";
 
-const taluk =
-localStorage.getItem("taluk") || "Kodagu";
+  const taluk =
+    localStorage.getItem("taluk") || "Kodagu";
 
-return (
+  return (
 
+    <Tilt scale={1.05}>
 
-<div className="bg-white/80 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/30 p-8 text-center">
+      <motion.div
+        initial={{
+          opacity: 0,
+          x: -50
+        }}
+        animate={{
+          opacity: 1,
+          x: 0
+        }}
+        className="
+        bg-white
+        rounded-3xl
+        shadow-2xl
+        p-8
+        text-center
+        relative
+        overflow-hidden
+      "
+      >
 
-  <img
-    src="/mla.png"
-    alt="MLA"
-    className="w-32 h-32 mx-auto rounded-full border-4 border-green-600 object-cover shadow-xl"
-  />
+        <div className="absolute -top-10 -right-10 w-40 h-40 bg-green-100 rounded-full blur-3xl" />
 
-  <h2 className="text-3xl font-black mt-5 text-gray-800">
-    {name}
-  </h2>
+        <img
+          src="/mla.png"
+          alt="MLA"
+          className="
+          w-36 h-36
+          mx-auto
+          rounded-full
+          border-4 border-green-600
+          shadow-2xl
+        "
+        />
 
-  <p className="text-green-700 font-semibold mt-2">
-    Member of Legislative Assembly
-  </p>
+        <h2 className="text-4xl font-black mt-5">
+          {name}
+        </h2>
 
-  <div className="mt-6">
+        <p className="text-green-700 font-bold mt-2">
+          Member of Legislative Assembly
+        </p>
 
-    <div className="bg-green-50 rounded-2xl p-4">
+        <div className="mt-6 bg-green-50 p-4 rounded-2xl">
 
-      <p className="text-sm text-gray-500">
-        Constituency
-      </p>
+          <p className="text-gray-500">
+            Constituency
+          </p>
 
-      <h3 className="font-bold text-green-700 mt-1">
-        {taluk}
-      </h3>
+          <h3 className="text-2xl font-bold text-green-700">
+            {taluk}
+          </h3>
 
-    </div>
+        </div>
 
-  </div>
+      </motion.div>
 
-</div>
-
-
-);
-
+    </Tilt>
+  );
 }

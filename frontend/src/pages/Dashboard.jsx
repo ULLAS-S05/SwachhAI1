@@ -1,213 +1,187 @@
-import AIPanel from "../components/dashboard/AIPanel";
 import { useEffect, useState } from "react";
 import api from "../services/api";
-import Confetti from "react-confetti";
-import ReactCompareImage from "react-compare-image";
-import ComplaintMap from "../components/ComplaintMap";
+
 import Header from "../components/dashboard/Header";
 import StatsCards from "../components/dashboard/StatsCards";
+import ComplaintMap from "../components/ComplaintMap";
+import AIPanel from "../components/dashboard/AIPanel";
+import OfficerSidebar from "../components/dashboard/OfficerSidebar";
 
 export default function Dashboard() {
+
   const [complaints, setComplaints] = useState([]);
-  const [files, setFiles] = useState({});
-  const [showConfetti, setShowConfetti] = useState(false);
-  const [aiResults, setAiResults] = useState({});
-  const panchayat = localStorage.getItem("panchayat");
-  const loadComplaints = async () => {
-    try {
-      const res = await api.get("/complaints");
 
-      const filtered = res.data.filter((c) => c.panchayat === panchayat);
-
-      setComplaints(filtered);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const updateStatus = async (id, status) => {
-    await api.put(`/complaints/${id}/status?status=${status}`);
-
-    loadComplaints();
-  };
-
-  const uploadAfterImage = async (complaintId) => {
-    const file = files[complaintId];
-
-    if (!file) {
-      alert("Select an image first");
-
-      return;
-    }
-
-    const formData = new FormData();
-
-    formData.append("file", file);
-
-    const uploadRes = await api.post("/upload", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
-
-    const aiRes = await api.put(
-      `/complaints/${complaintId}/after-image?image_path=${uploadRes.data.path}`,
-    );
-
-    setAiResults((prev) => ({
-      ...prev,
-      [complaintId]: aiRes.data,
-    }));
-
-    setShowConfetti(true);
-
-    setTimeout(() => {
-      setShowConfetti(false);
-    }, 5000);
-
-    loadComplaints();
-
-    alert("Complaint Resolved");
-  };
+  const panchayat =
+    localStorage.getItem("panchayat");
 
   useEffect(() => {
     loadComplaints();
   }, []);
 
-  const totalCount = complaints.length;
+  const loadComplaints = async () => {
 
-  const pendingCount = complaints.filter((c) => c.status === "PENDING").length;
+    try {
 
-  const progressCount = complaints.filter(
-    (c) => c.status === "IN_PROGRESS",
-  ).length;
+      const res = await api.get("/complaints");
 
-  const resolvedCount = complaints.filter(
-    (c) => c.status === "RESOLVED",
-  ).length;
+      const filtered = res.data.filter(
+        (c) => c.panchayat === panchayat
+      );
+
+      setComplaints(filtered);
+
+    } catch (err) {
+      console.log(err);
+    }
+
+  };
+
+  const total =
+    complaints.length;
+
+  const pending =
+    complaints.filter(
+      (c) => c.status === "PENDING"
+    ).length;
+
+  const progress =
+    complaints.filter(
+      (c) => c.status === "IN_PROGRESS"
+    ).length;
+
+  const resolved =
+    complaints.filter(
+      (c) => c.status === "RESOLVED"
+    ).length;
 
   return (
-    <>
-      {showConfetti && <Confetti />}
 
-      <div>
-        <Header />
+    <div className="flex min-h-screen bg-slate-100">
 
-        <StatsCards
-          total={totalCount}
-          pending={pendingCount}
-          progress={progressCount}
-          resolved={resolvedCount}
-        />
+      <OfficerSidebar />
+
+      <div className="flex-1 p-8">
+
+        <div id="dashboard">
+          <Header />
+
+          <StatsCards
+            total={total}
+            pending={pending}
+            progress={progress}
+            resolved={resolved}
+          />
+        </div>
 
         <div
-          className="
-  bg-white
-  rounded-3xl
-  shadow-2xl
-  p-6
-  mb-8
-  border
-  border-green-100
-  "
+          id="map"
+          className="bg-white rounded-3xl shadow-2xl p-6 mb-8"
         >
-          <div className="flex items-center justify-between mb-5">
-            <div>
-              <h2 className="text-3xl font-black text-green-700">
-                🗺 Live Complaint Map
-              </h2>
 
-              <p className="text-gray-500 mt-1">
-                Real-time complaint locations in your Panchayat
-              </p>
-            </div>
+          <div className="flex justify-between items-center mb-5">
 
-            <div className="bg-green-100 text-green-700 px-4 py-2 rounded-full font-semibold">
-              {complaints.length} Complaints
-            </div>
+            <h2 className="text-4xl font-black text-green-700">
+              🗺 Live Complaint Map
+            </h2>
+
+            <span className="bg-green-100 text-green-700 px-5 py-2 rounded-full font-bold">
+              {total} Complaints
+            </span>
+
           </div>
 
           <ComplaintMap complaints={complaints} />
-</div>
 
-<AIPanel complaints={complaints} />
-
-<div className="mt-6">
-          {complaints.map((c) => (
-            
-            <div
-              key={c.complaint_id}
-              className="bg-white rounded-3xl shadow-xl border border-gray-100 hover:shadow-2xl transition-all duration-300 p-6 mb-8"            >
-              <h3 className="font-bold">{c.complaint_id}</h3>
-
-              <p>{c.description}</p>
-              <p>Village: {c.village}</p>
-
-              <p>
-                Status:
-                <b> {c.status}</b>
-              </p>
-
-              {c.after_image && (
-                <div className="mt-4">
-                  <p className="font-bold mb-2">🎚️ Before / After Comparison</p>
-
-                  <div className="w-full max-w-3xl mx-auto">
-                    <ReactCompareImage
-                      leftImage={`https://swachhai1-1.onrender.com/${c.before_image}`}
-                      rightImage={`https://swachhai1-1.onrender.com/${c.after_image}`}
-                    />
-                  </div>
-                </div>
-              )}
-
-              {aiResults[c.complaint_id] && (
-                <div className="mt-2 p-2 bg-blue-100 rounded-lg">
-                  <p>
-                    🤖 AI Status:
-                    <b> {aiResults[c.complaint_id].ai_status}</b>
-                  </p>
-                  <p>
-                    AI Score:
-                    <b> {aiResults[c.complaint_id].ai_score}%</b>
-                  </p>
-                </div>
-              )}
-
-              {c.status !== "RESOLVED" && (
-                <>
-                  <button
-                    className="bg-yellow-500 text-white px-3 py-1 mr-2 rounded"
-                    onClick={() => updateStatus(c.complaint_id, "IN_PROGRESS")}
-                  >
-                    Start Work
-                  </button>
-
-                  <br />
-                  <br />
-
-                  <input
-                    type="file"
-                    onChange={(e) =>
-                      setFiles({
-                        ...files,
-                        [c.complaint_id]: e.target.files[0],
-                      })
-                    }
-                  />
-
-                  <button
-                    className="bg-green-600 text-white px-3 py-1 ml-2 rounded"
-                    onClick={() => uploadAfterImage(c.complaint_id)}
-                  >
-                    Upload After Image
-                  </button>
-                </>
-              )}
-            </div>
-          ))}
         </div>
+
+        <div
+          id="ai"
+          className="mb-8"
+        >
+          <AIPanel complaints={complaints} />
+        </div>
+
+        <div
+          id="complaints"
+          className="bg-white rounded-3xl shadow-2xl p-8"
+        >
+
+          <div className="flex justify-between items-center mb-6">
+
+            <h2 className="text-4xl font-black text-green-700">
+              📋 Recent Complaints
+            </h2>
+
+            <span className="bg-blue-100 text-blue-700 px-4 py-2 rounded-full font-bold">
+              {complaints.length} Records
+            </span>
+
+          </div>
+
+          <div className="space-y-5">
+
+            {complaints.map((c) => (
+
+              <div
+                key={c.complaint_id}
+                className="
+                bg-gradient-to-r
+                from-white
+                to-green-50
+                border
+                border-green-100
+                rounded-3xl
+                p-6
+                shadow-lg
+                hover:shadow-2xl
+                transition-all
+                "
+              >
+
+                <div className="flex justify-between items-center">
+
+                  <div>
+
+                    <h3 className="text-xl font-bold">
+                      {c.complaint_id}
+                    </h3>
+
+                    <p className="text-gray-500">
+                      {c.village}
+                    </p>
+
+                  </div>
+
+                  <span
+                    className={
+                      c.status === "RESOLVED"
+                        ? "bg-green-100 text-green-700 px-4 py-2 rounded-full font-bold"
+                        : c.status === "IN_PROGRESS"
+                        ? "bg-yellow-100 text-yellow-700 px-4 py-2 rounded-full font-bold"
+                        : "bg-red-100 text-red-700 px-4 py-2 rounded-full font-bold"
+                    }
+                  >
+                    {c.status}
+                  </span>
+
+                </div>
+
+                <p className="mt-4 text-gray-700">
+                  {c.description}
+                </p>
+
+              </div>
+
+            ))}
+
+          </div>
+
+        </div>
+
       </div>
-    </>
+
+    </div>
+
   );
+
 }

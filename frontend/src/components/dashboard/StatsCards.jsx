@@ -1,40 +1,82 @@
+import {
+  FaClipboardList,
+  FaClock,
+  FaSpinner,
+  FaCheckCircle
+} from "react-icons/fa";
+
 export default function StatsCards({
   total = 0,
   pending = 0,
   progress = 0,
   resolved = 0,
 }) {
-  const resolution =
-    total > 0 ? ((resolved / total) * 100).toFixed(1) : 0;
+
+  const cards = [
+    {
+      title: "Total Complaints",
+      value: total,
+      icon: <FaClipboardList />,
+      color: "from-blue-600 to-cyan-500"
+    },
+    {
+      title: "Pending",
+      value: pending,
+      icon: <FaClock />,
+      color: "from-red-600 to-pink-500"
+    },
+    {
+      title: "In Progress",
+      value: progress,
+      icon: <FaSpinner />,
+      color: "from-yellow-500 to-orange-500"
+    },
+    {
+      title: "Resolved",
+      value: resolved,
+      icon: <FaCheckCircle />,
+      color: "from-green-600 to-emerald-500"
+    }
+  ];
 
   return (
-    <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
 
-      <div className="bg-blue-500 text-white p-6 rounded-2xl shadow-lg text-center">
-        <h3 className="font-bold">Total</h3>
-        <p className="text-3xl font-bold">{total}</p>
-      </div>
+    <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-6 mb-8">
 
-      <div className="bg-red-500 text-white p-6 rounded-2xl shadow-lg text-center">
-        <h3 className="font-bold">Pending</h3>
-        <p className="text-3xl font-bold">{pending}</p>
-      </div>
+      {cards.map((card) => (
 
-      <div className="bg-yellow-500 text-white p-6 rounded-2xl shadow-lg text-center">
-        <h3 className="font-bold">In Progress</h3>
-        <p className="text-3xl font-bold">{progress}</p>
-      </div>
+        <div
+          key={card.title}
+          className={`bg-gradient-to-r ${card.color}
+          text-white rounded-3xl p-6 shadow-2xl`}
+        >
 
-      <div className="bg-green-500 text-white p-6 rounded-2xl shadow-lg text-center">
-        <h3 className="font-bold">Resolved</h3>
-        <p className="text-3xl font-bold">{resolved}</p>
-      </div>
+          <div className="flex justify-between items-center">
 
-      <div className="bg-purple-500 text-white p-6 rounded-2xl shadow-lg text-center">
-        <h3 className="font-bold">Resolution</h3>
-        <p className="text-3xl font-bold">{resolution}%</p>
-      </div>
+            <div>
+
+              <p className="text-white/80">
+                {card.title}
+              </p>
+
+              <h2 className="text-5xl font-black mt-3">
+                {card.value}
+              </h2>
+
+            </div>
+
+            <div className="text-5xl">
+              {card.icon}
+            </div>
+
+          </div>
+
+        </div>
+
+      ))}
 
     </div>
+
   );
+
 }
